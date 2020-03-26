@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  
+  function handleButtonClick(type) {
+      socket.emit('button click', type);
+  }
+
+  function changeCounter(newValue, type) {
+      document.getElementById("output-" + type).innerHTML = newValue;
+  }
+
+  socket.on('button set', function(result) {
+      changeCounter(result.value, result.type);
+  });
+</script>
+
+<body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="buttons has-addons is-centered">
+                    <button class="button is-large" onClick=handleButtonClick(1)>
+                        <span class="icon">
+                            <i class="fas fa-angle-double-right"></i>
+                        </span>
+                        <span>Faster</span>
+                    </button>
+
+                    <button class="button is-large" onClick=handleButtonClick(2)>
+                        <span class="icon">
+                            <i class="fas fa-angle-double-left"></i>
+                        </span>
+                        <span>Slower</span>
+                    </button>
+
+                </div>
+                <div class="columns is-mobile is-centered">
+                    <div class="column is-half columns is-mobile is-centered">
+                        <div id="output-1" class="column has-text-centered is-size-1">0</div>
+                        <div id="output-2" class="column has-text-centered is-size-1">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </body>
+</html>
